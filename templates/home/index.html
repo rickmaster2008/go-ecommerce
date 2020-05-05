@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/css/bulma.css" />
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <title>Tienda</title>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container">
+        <div class="columns is-centered">
+          {{range . }}
+          <div class="column has-text-centered">
+            <h1>{{.Name}}</h1>
+            <p>Tengo {{.Age}} años</p>
+            <small
+              >Escríbeme a <a href="mailto:{{.Email}}">{{.Email}}</a></small
+            >
+            <br />
+          </div>
+          {{end}}
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-half">
+            <form id="user-add">
+              <div class="field">
+                <label class="label">Nombre</label>
+                <div class="control">
+                  <input
+                    class="input"
+                    name="name"
+                    type="text"
+                    placeholder="Nombre"
+                  />
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Nombre de usuario</label>
+                <div class="control">
+                  <input
+                    class="input"
+                    name="username"
+                    type="text"
+                    placeholder="Nombre de usuario"
+                  />
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Edad</label>
+                <div class="control">
+                  <input
+                    class="input"
+                    name="age"
+                    type="number"
+                    placeholder="Edad"
+                  />
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Email</label>
+                <div class="control">
+                  <input
+                    class="input"
+                    name="email"
+                    type="text"
+                    placeholder="Email"
+                  />
+                </div>
+              </div>
+              <div class="field">
+                <p class="control">
+                  <button class="button is-success">
+                    Submit
+                  </button>
+                </p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script>
+      const form = document.querySelector('#user-add')
+      form.addEventListener('submit', e => {
+        e.preventDefault()
+        const user = {
+          name: e.target.name.value,
+          username: e.target.username.value,
+          age: parseInt(e.target.age.value),
+          email: e.target.email.value,
+        }
+        fetch('/users', {
+          method: 'post',
+          body: JSON.stringify(user)
+        }).then(res => {
+          return res.json()
+        }).then(data => console.log(data))
+      })
+    </script>
+  </body>
+</html>
